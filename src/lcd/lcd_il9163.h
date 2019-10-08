@@ -67,14 +67,14 @@ void        il9163_setMode(lcd_mode_t mode);
 void         il9163_128x128_init(void);
 
 /**
- * @brief Inits 128x160 RGB OLED display (based on st7735 controller).
+ * @brief Inits 80x160 RGB OLED display (based on st7735 controller).
  *
- * Inits 128x160 RGB OLED display (based on st7735 controller).
+ * Inits 80x160 RGB OLED display (based on st7735 controller).
  * User must init communication interface (i2c, spi) prior to calling this function.
  * @see ssd1306_i2cInit()
  * @see ssd1306_spiInit()
  */
-void         st7735_128x160_init(void);
+void         st7735_80x160_init(void);
 
 /**
  * @brief Inits 128x128 RGB TFT display over spi (based on il9163 controller).
@@ -87,14 +87,14 @@ void         st7735_128x160_init(void);
 void         il9163_128x128_spi_init(int8_t rstPin, int8_t cesPin, int8_t dcPin);
 
 /**
- * @brief Inits 128x160 RGB TFT display over spi (based on st7735 controller).
+ * @brief Inits 80x160 RGB TFT display over spi (based on st7735 controller).
  *
- * Inits 128x160 RGB TFT display over spi (based on st7735 controller)
+ * Inits 80x160 RGB TFT display over spi (based on st7735 controller)
  * @param rstPin - pin controlling LCD reset (-1 if not used)
  * @param cesPin - chip enable pin to LCD slave (-1 if not used)
  * @param dcPin - data/command pin to control LCD dc (required)
  */
-void         st7735_128x160_spi_init(int8_t rstPin, int8_t cesPin, int8_t dcPin);
+void         st7735_80x160_spi_init(int8_t rstPin, int8_t cesPin, int8_t dcPin);
 
 /**
  * @}

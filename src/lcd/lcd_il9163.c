@@ -74,7 +74,7 @@ static const PROGMEM uint8_t s_oled128x128_initData[] =
     0x29,                                 // display on
 };
 
-static const PROGMEM uint8_t s_oled128x160_initData[] =
+static const PROGMEM uint8_t s_oled80x160_initData[] =
 {
 #ifdef SDL_EMULATION
     SDL_LCD_ST7735, 0x00,
@@ -396,10 +396,10 @@ static void    st7735_setMode(lcd_mode_t mode)
     il9163_setRotation( s_rotation & 0x03 );
 }
 
-void    st7735_128x160_init()
+void    st7735_80x160_init()
 {
     ssd1306_lcd.type = LCD_TYPE_SSD1331;
-    ssd1306_lcd.width = 128;
+    ssd1306_lcd.width = 80;
     ssd1306_lcd.height = 160;
     s_rgb_bit = 0b00000000; // set RGB mode mapping
     ssd1306_lcd.set_block = st7735_setBlock;
@@ -409,10 +409,10 @@ void    st7735_128x160_init()
     ssd1306_lcd.send_pixels8 = il9163_sendPixel8;
     ssd1306_lcd.send_pixels16 = il9163_sendPixel16;
     ssd1306_lcd.set_mode = st7735_setMode;
-    ssd1306_configureSpiDisplay2(s_oled128x160_initData, sizeof(s_oled128x160_initData));
+    ssd1306_configureSpiDisplay2(s_oled80x160_initData, sizeof(s_oled80x160_initData));
 }
 
-void   st7735_128x160_spi_init(int8_t rstPin, int8_t cesPin, int8_t dcPin)
+void   st7735_80x160_spi_init(int8_t rstPin, int8_t cesPin, int8_t dcPin)
 {
     if (rstPin >=0)
     {
@@ -423,5 +423,5 @@ void   st7735_128x160_spi_init(int8_t rstPin, int8_t cesPin, int8_t dcPin)
     /* ssd1351 cannot work faster than at 4MHz per datasheet */
     s_ssd1306_spi_clock = 8000000;
     ssd1306_spiInit(cesPin, dcPin);
-    st7735_128x160_init();
+    st7735_80x160_init();
 }
