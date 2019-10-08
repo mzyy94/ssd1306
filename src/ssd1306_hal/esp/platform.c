@@ -76,83 +76,6 @@ void delay(uint32_t ms)     // delay()
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// !!! PLATFORM I2C IMPLEMENTATION OPTIONAL !!!
-#if defined(CONFIG_PLATFORM_I2C_AVAILABLE) && defined(CONFIG_PLATFORM_I2C_ENABLE)
-
-#include <stdio.h>
-#include "driver/i2c.h"
-
-static uint8_t s_i2c_addr = 0x3C;
-static int8_t s_bus_id;
-
-static i2c_cmd_handle_t s_cmd_handle;
-
-static void platform_i2c_start(void)
-{
-    // ... Open i2c channel for your device with specific s_i2c_addr
-    s_cmd_handle = i2c_cmd_link_create();
-    i2c_master_start(s_cmd_handle);
-    i2c_master_write_byte(s_cmd_handle, ( s_i2c_addr << 1 ) | I2C_MASTER_WRITE, 0x1);
-}
-
-static void platform_i2c_stop(void)
-{
-    // ... Complete i2c communication
-    i2c_master_stop(s_cmd_handle);
-    /*esp_err_t ret =*/ i2c_master_cmd_begin(s_bus_id, s_cmd_handle, 1000 / portTICK_RATE_MS);
-    i2c_cmd_link_delete(s_cmd_handle);
-}
-
-static void platform_i2c_send(uint8_t data)
-{
-    // ... Send byte to i2c communication channel
-    i2c_master_write_byte(s_cmd_handle, data, 0x1);
-}
-
-static void platform_i2c_close(void)
-{
-    // ... free all i2c resources here
-    i2c_driver_delete(s_bus_id);
-}
-
-static void platform_i2c_send_buffer(const uint8_t *data, uint16_t len)
-{
-    // ... Send len bytes to i2c communication channel here
-    while (len--)
-    {
-        platform_i2c_send(*data);
-        data++;
-    }
-//    i2c_master_write(cmd, data_wr, size, ACK_CHECK_EN);
-}
-
-void ssd1306_platform_i2cInit(int8_t busId, uint8_t addr, ssd1306_platform_i2cConfig_t * cfg)
-{
-    if (addr) s_i2c_addr = addr;
-    ssd1306_intf.spi = 0;
-    ssd1306_intf.start = &platform_i2c_start;
-    ssd1306_intf.stop  = &platform_i2c_stop;
-    ssd1306_intf.send  = &platform_i2c_send;
-    ssd1306_intf.close = &platform_i2c_close;
-    ssd1306_intf.send_buffer = &platform_i2c_send_buffer;
-    // init your interface here
-    if ( busId < 0) busId = I2C_NUM_1;
-    s_bus_id = busId;
-    i2c_config_t conf;
-    conf.mode = I2C_MODE_MASTER;
-    conf.sda_io_num = cfg->sda >= 0 ? cfg->sda : 21;
-    conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
-    conf.scl_io_num = cfg->scl >= 0 ? cfg->scl : 22;
-    conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
-    conf.master.clk_speed = 400000; //I2C_EXAMPLE_MASTER_FREQ_HZ;
-    i2c_param_config(s_bus_id, &conf);
-    i2c_driver_install(s_bus_id, conf.mode, 0, 0, 0);
-//                       I2C_EXAMPLE_MASTER_RX_BUF_DISABLE,
-//                       I2C_EXAMPLE_MASTER_TX_BUF_DISABLE, 0);
-}
-#endif
-
-////////////////////////////////////////////////////////////////////////////////////////
 // !!! PLATFORM SPI IMPLEMENTATION OPTIONAL !!!
 #if defined(CONFIG_PLATFORM_SPI_AVAILABLE) && defined(CONFIG_PLATFORM_SPI_ENABLE)
 
@@ -237,15 +160,6 @@ static void platform_spi_close(void)
     spi_bus_free( s_spi_bus_id ? VSPI_HOST : HSPI_HOST );
 }
 
-static void platform_spi_send_buffer(const uint8_t *data, uint16_t len)
-{
-    while (len--)
-    {
-        platform_i2c_send(*data);
-        data++;
-    }
-}
-
 void ssd1306_platform_spiInit(int8_t busId,
                               int8_t cesPin,
                               int8_t dcPin)
@@ -270,7 +184,6 @@ void ssd1306_platform_spiInit(int8_t busId,
     ssd1306_intf.stop  = &platform_spi_stop;
     ssd1306_intf.send  = &platform_spi_send;
     ssd1306_intf.close = &platform_spi_close;
-    ssd1306_intf.send_buffer = &platform_spi_send_buffer;
 
     // init your interface here
     spi_bus_config_t buscfg=

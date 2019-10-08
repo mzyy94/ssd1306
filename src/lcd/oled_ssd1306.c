@@ -26,7 +26,6 @@
 #include "lcd_common.h"
 #include "ssd1306_commands.h"
 #include "intf/ssd1306_interface.h"
-#include "intf/i2c/ssd1306_i2c.h"
 #include "intf/spi/ssd1306_spi.h"
 #include "ssd1306_hal/io.h"
 #ifdef SDL_EMULATION
@@ -170,12 +169,6 @@ uint8_t ssd1306_getStartLine(void)
 //  I2C SSD1306 128x64
 ///////////////////////////////////////////////////////////////////////////////
 
-void    ssd1306_init()
-{
-    ssd1306_128x64_i2c_init();
-}
-
-
 void    ssd1306_128x64_init()
 {
     ssd1306_lcd.type = LCD_TYPE_SSD1306;
@@ -190,18 +183,6 @@ void    ssd1306_128x64_init()
     {
         ssd1306_sendCommand(pgm_read_byte(&s_oled128x64_initData[i]));
     }
-}
-
-void    ssd1306_128x64_i2c_init()
-{
-    ssd1306_i2cInit();
-    ssd1306_128x64_init();
-}
-
-void    ssd1306_128x64_i2c_initEx(int8_t scl, int8_t sda, int8_t sa)
-{
-    ssd1306_i2cInitEx(scl, sda, sa);
-    ssd1306_128x64_init();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -235,13 +216,6 @@ void    ssd1306_128x32_init()
     {
         ssd1306_sendCommand(pgm_read_byte(&s_oled128x32_initData[i]));
     }
-}
-
-
-void    ssd1306_128x32_i2c_init()
-{
-    ssd1306_i2cInit();
-    ssd1306_128x32_init();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
