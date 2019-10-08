@@ -51,33 +51,6 @@ extern "C" {
 void         ssd1306_128x64_init(void);
 
 /**
- * @brief Inits 128x64 OLED display over i2c (based on SSD1306 controller).
- *
- * Inits 128x64 OLED display over i2c (based on SSD1306 controller)
- * This function uses hardcoded pins for i2c communication, depending on your hardware.
- * If you use non-standard pins in your project, please perform call ssd1306_i2cInitEx() and
- * ssd1306_128x64_init(), or you can use ssd1306_128x64_i2c_initEx().
- */
-void         ssd1306_128x64_i2c_init(void);
-
-/**
- * @brief Inits 128x64 OLED display over i2c (based on SSD1306 controller).
- *
- * Inits 128x64 OLED display over i2c (based on SSD1306 controller)
- * This function uses hardcoded pins for i2c communication, depending on your hardware.
- *
- * @param scl - i2c clock pin. Use -1 if you don't need to change default pin number
- * @param sda - i2c data pin. Use -1 if you don't need to change default pin number
- * @param sa  - i2c address of lcd display. Use 0 to leave default
- *
- * @note scl and sda parameters depend on used hardware. For many hardware boards these
- * parameters do not have any effect. ESP8266 allows to specify these parameters
- *
- * @note scl and sda for Linux systems should be the same, and should contain i2c bus id.
- */
-void         ssd1306_128x64_i2c_initEx(int8_t scl, int8_t sda, int8_t sa);
-
-/**
  * @brief Inits 128x64 OLED display over spi (based on SSD1306 controller).
  *
  * Inits 128x64 OLED display over spi (based on SSD1306 controller)
@@ -102,16 +75,6 @@ void         ssd1306_128x32_spi_init(int8_t rstPin, int8_t cesPin, int8_t dcPin)
  * @deprecated Use ssd1306_128x64_i2c_init() instead.
  */
 void         ssd1306_init(void) __attribute__((deprecated));
-
-/**
- * @brief Inits 128x32 OLED display over i2c (based on SSD1306 controller).
- *
- * Inits 128x32 OLED display over i2c (based on SSD1306 controller)
- * This function uses hardcoded pins for i2c communication, depending on your hardware.
- * If you use non-standard pins in your project, please perform call ssd1306_i2cInitEx() and
- * ssd1306_128x32_init().
- */
-void         ssd1306_128x32_i2c_init(void);
 
 /**
  * @brief Inits 128x32 OLED display (based on ssd1306 controller).

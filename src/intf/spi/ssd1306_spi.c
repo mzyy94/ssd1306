@@ -24,7 +24,6 @@
 
 
 #include "ssd1306_spi.h"
-#include "ssd1306_spi_avr.h"
 #include "ssd1306_spi_usi.h"
 #include "intf/ssd1306_interface.h"
 #include "lcd/lcd_common.h"

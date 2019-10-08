@@ -72,34 +72,6 @@ typedef unsigned int lcduint_t;
 extern "C" {
 #endif
 
-// !!! PLATFORM I2C IMPLEMENTATION OPTIONAL !!!
-#if defined(CONFIG_PLATFORM_I2C_AVAILABLE) && defined(CONFIG_PLATFORM_I2C_ENABLE)
-/**
- * Structure describes i2c pins used by platform
- */
-typedef struct {
-    int8_t sda; ///< data pin number
-    int8_t scl; ///< clock pin number
-} ssd1306_platform_i2cConfig_t;
-
-/**
- * @brief Initializes i2c interface for platform being used.
- *
- * Initializes i2c interface for platform being used. i2c implementation
- * depends on platform.
- *
- * @param busId i2c bus number. Some platforms have several i2c buses. so, this
- *        argument identifies bus to use. For several platforms busId is not used.
- *        If you want to use default i2c bus for specific platform, please pass -1.
- * @param addr i2c address of oled driver, connected to i2c bus. If you want to use default
- *        i2c display address, please, pass 0.
- * @param cfg Specify scl and sda for the platform. If you want to use default pin numbers,
- *        please pass -1 for both members.
- */
-void ssd1306_platform_i2cInit(int8_t busId, uint8_t addr, ssd1306_platform_i2cConfig_t * cfg);
-#endif
-
-
 // !!! PLATFORM SPI IMPLEMENTATION OPTIONAL !!!
 #if defined(CONFIG_PLATFORM_SPI_AVAILABLE) && defined(CONFIG_PLATFORM_SPI_ENABLE)
 /**

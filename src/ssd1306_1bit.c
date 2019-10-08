@@ -29,13 +29,9 @@
 #include "ssd1306.h"
 #include "ssd1306_fonts.h"
 #include "lcd/lcd_common.h"
-#include "intf/i2c/ssd1306_i2c.h"
 #include "intf/spi/ssd1306_spi.h"
 #include "intf/ssd1306_interface.h"
 #include "ssd1306_hal/io.h"
-
-// TODO: remove
-#include "lcd/ssd1306_commands.h"
 
 uint8_t s_ssd1306_invertByte = 0x00000000;
 extern uint16_t ssd1306_color;
