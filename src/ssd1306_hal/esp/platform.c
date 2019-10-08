@@ -275,9 +275,9 @@ void ssd1306_platform_spiInit(int8_t busId,
     // init your interface here
     spi_bus_config_t buscfg=
     {
-        .miso_io_num= s_spi_bus_id ? 19 : 12,
-        .mosi_io_num= s_spi_bus_id ? 23 : 13,
-        .sclk_io_num= s_spi_bus_id ? 18 : 14,
+        .miso_io_num= -1,
+        .mosi_io_num= 15,
+        .sclk_io_num= 13,
         .quadwp_io_num=-1,
         .quadhd_io_num=-1,
         .max_transfer_sz=32
