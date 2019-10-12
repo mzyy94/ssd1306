@@ -58,6 +58,9 @@ static const uint8_t PROGMEM s_oled128x64_initData[] =
     SSD1306_DISPLAYON,
 };
 
+#define X_OFFSET 1
+#define Y_OFFSET 26
+
 static const uint8_t PROGMEM s_oled128x32_initData[] =
 {
 #ifdef SDL_EMULATION
@@ -90,10 +93,10 @@ static void ssd1306_setBlock(lcduint_t x, lcduint_t y, lcduint_t w)
     else
         ssd1306_intf.send(0x00);
     ssd1306_intf.send(SSD1306_COLUMNADDR);
-    ssd1306_intf.send(x);
-    ssd1306_intf.send(w ? (x + w - 1) : (ssd1306_lcd.width - 1));
+    ssd1306_intf.send(x + X_OFFSET);
+    ssd1306_intf.send(w ? (x + w - 1+X_OFFSET) : (ssd1306_lcd.width - 1));
     ssd1306_intf.send(SSD1306_PAGEADDR);
-    ssd1306_intf.send(y);
+    ssd1306_intf.send(y+Y_OFFSET);
     ssd1306_intf.send((ssd1306_lcd.height >> 3) - 1);
     if (ssd1306_intf.spi)
     {

@@ -331,27 +331,29 @@ void il9163_setRotation(uint8_t rotation)
 ////////////////////////////////////////////////////////////////////////////////////////
 //                         ST7735 support
 ////////////////////////////////////////////////////////////////////////////////////////
+#define X_OFFSET 26
+#define Y_OFFSET 1
 
 static void st7735_setBlock(lcduint_t x, lcduint_t y, lcduint_t w)
 {
-    uint8_t rx = w ? (x + w - 1) : (ssd1306_lcd.width - 1);
-    s_column = x;
-    s_page = y;
+    uint8_t rx = w ? (x+X_OFFSET + w - 1) : (ssd1306_lcd.width - 1);
+    s_column = x+X_OFFSET;
+    s_page = (y+Y_OFFSET);
     ssd1306_intf.start();
     ssd1306_spiDataMode(0);
     ssd1306_intf.send(0x2B);
     ssd1306_spiDataMode(1);  // According to datasheet all args must be passed in data mode
     ssd1306_intf.send(0);
-    ssd1306_intf.send(x);
+    ssd1306_intf.send(x+X_OFFSET);
     ssd1306_intf.send(0);
     ssd1306_intf.send((rx < ssd1306_lcd.width ? rx : (ssd1306_lcd.width - 1)));
     ssd1306_spiDataMode(0);
     ssd1306_intf.send(0x2A);
     ssd1306_spiDataMode(1);  // According to datasheet all args must be passed in data mode
     ssd1306_intf.send(0);
-    ssd1306_intf.send((y<<3));
+    ssd1306_intf.send(((y+Y_OFFSET)<<3));
     ssd1306_intf.send(0);
-    ssd1306_intf.send((((y<<3) + 7) < ssd1306_lcd.height ? ((y<<3) + 7) : (ssd1306_lcd.height - 1)));
+    ssd1306_intf.send(((((y+Y_OFFSET)<<3) + 7) < ssd1306_lcd.height ? (((y+Y_OFFSET)<<3) + 7) : (ssd1306_lcd.height - 1)));
     ssd1306_spiDataMode(0);
     ssd1306_intf.send(0x2C);
     ssd1306_spiDataMode(1);
@@ -359,20 +361,20 @@ static void st7735_setBlock(lcduint_t x, lcduint_t y, lcduint_t w)
 
 static void st7735_setBlock2(lcduint_t x, lcduint_t y, lcduint_t w)
 {
-    uint8_t rx = w ? (x + w - 1) : (ssd1306_lcd.width - 1);
+    uint8_t rx = w ? (x+X_OFFSET + w - 1) : (ssd1306_lcd.width - 1);
     ssd1306_intf.start();
     ssd1306_spiDataMode(0);
     ssd1306_intf.send(0x2A);
     ssd1306_spiDataMode(1);  // According to datasheet all args must be passed in data mode
     ssd1306_intf.send(0);
-    ssd1306_intf.send(x);
+    ssd1306_intf.send(x+X_OFFSET);
     ssd1306_intf.send(0);
     ssd1306_intf.send( rx < ssd1306_lcd.width ? rx : (ssd1306_lcd.width - 1) );
     ssd1306_spiDataMode(0);
     ssd1306_intf.send(0x2B);
     ssd1306_spiDataMode(1);  // According to datasheet all args must be passed in data mode
     ssd1306_intf.send(0);
-    ssd1306_intf.send(y);
+    ssd1306_intf.send(y+Y_OFFSET);
     ssd1306_intf.send(0);
     ssd1306_intf.send( ssd1306_lcd.height - 1 );
     ssd1306_spiDataMode(0);
